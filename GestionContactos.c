@@ -26,7 +26,7 @@ int main()
         printf("4 - Salir.\n");
         printf("Ingrese la opcion: ");
         scanf("%d", &opcion);
-        getchar(); // Clear the newline character from the buffer
+        getchar();
 
         switch (opcion)
         {
@@ -41,47 +41,32 @@ int main()
             break;
         case 4:
             printf("¿Está seguro que desea salir? (s/n): ");
-            char confirm;
-            scanf(" %c", &confirm);
-            if (confirm == 's' || confirm == 'S')
-            {
-                printf("Saliendo...\n");
-            }
-            else
-            {
-                opcion = 0; // Reset option to continue
-            }
             break;
         default:
             printf("Error. Intente nuevamente.\n");
             break;
         }
     } while (opcion != 4);
-
-    return 0; // Return success
 }
 
 void agregarContacto()
 {
     Contacto contacto;
     FILE *arch = fopen("contactos.txt", "a");
-    if (arch == NULL)
+    if (!arch)
     {
-        perror("No se pudo abrir el archivo");
+        printf("No se pudo abrir el archivo");
         return;
     }
 
     printf("Ingrese el nombre: ");
     fgets(contacto.nombre, sizeof(contacto.nombre), stdin);
-    contacto.nombre[strcspn(contacto.nombre, "\n")] = 0; // Remove newline character
 
     printf("Ingrese el teléfono: ");
     fgets(contacto.numero, sizeof(contacto.numero), stdin);
-    contacto.numero[strcspn(contacto.numero, "\n")] = 0;
 
     printf("Ingrese el mail: ");
     fgets(contacto.mail, sizeof(contacto.mail), stdin);
-    contacto.mail[strcspn(contacto.mail, "\n")] = 0;
 
     fprintf(arch, "%s %s %s\n", contacto.nombre, contacto.numero, contacto.mail);
     fclose(arch);
@@ -93,7 +78,7 @@ void mostrarContactos()
 {
     Contacto contacto;
     FILE *arch = fopen("contactos.txt", "r");
-    if (arch == NULL)
+    if (!arch)
     {
         printf("No se pudo abrir el archivo.\n");
         return;
@@ -108,6 +93,4 @@ void mostrarContactos()
 
 void eliminarContacto()
 {
-    // Implementation for contact deletion can be added here.
-    printf("Función de eliminar contacto no implementada aún.\n");
 }
