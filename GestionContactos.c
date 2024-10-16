@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 typedef struct
 {
     char nombre[50];
@@ -8,87 +9,105 @@ typedef struct
     char mail[50];
 } Contacto;
 
-void agregarContacto(FILE *archivo);
-void mostrarContacto(FILE *archivo);
-void eliminarContacto(FILE *archivo);
+void agregarContacto();
+void mostrarContactos();
+void eliminarContacto();
 
-void main()
+int main()
 {
+    int opcion;
 
-    FILE *archivo;
-    int numero;
     do
     {
         printf("---------- GESTION DE CONTACTOS ----------\n");
-        printf("1 - Agregar contacto. \n");
+        printf("1 - Agregar contacto.\n");
         printf("2 - Mostrar contactos.\n");
         printf("3 - Eliminar contacto.\n");
         printf("4 - Salir.\n");
         printf("Ingrese la opcion: ");
-        scanf("%d", &numero);
-        getchar();
+        scanf("%d", &opcion);
+        getchar(); // Clear the newline character from the buffer
 
-        switch (numero)
+        switch (opcion)
         {
         case 1:
-            agregarContacto(archivo);
+            agregarContacto();
             break;
         case 2:
-            mostrarContacto(archivo);
+            mostrarContactos();
             break;
         case 3:
-            eliminarContacto(archivo);
+            eliminarContacto();
             break;
         case 4:
-            printf("¿Está seguro que desea salir?");
+            printf("¿Está seguro que desea salir? (s/n): ");
+            char confirm;
+            scanf(" %c", &confirm);
+            if (confirm == 's' || confirm == 'S')
+            {
+                printf("Saliendo...\n");
+            }
+            else
+            {
+                opcion = 0; // Reset option to continue
+            }
             break;
-
         default:
             printf("Error. Intente nuevamente.\n");
             break;
         }
-    } while (numero != 4);
+    } while (opcion != 4);
+
+    return 0; // Return success
 }
 
-void agregarContacto(FILE *archivo)
+void agregarContacto()
 {
     Contacto contacto;
     FILE *arch = fopen("contactos.txt", "a");
-    if (!arch)
+    if (arch == NULL)
     {
-        printf("No se pudo abrir el archivo");
+        perror("No se pudo abrir el archivo");
         return;
     }
+
     printf("Ingrese el nombre: ");
     fgets(contacto.nombre, sizeof(contacto.nombre), stdin);
-    fputs(contacto.nombre, arch);
+    contacto.nombre[strcspn(contacto.nombre, "\n")] = 0; // Remove newline character
 
     printf("Ingrese el teléfono: ");
     fgets(contacto.numero, sizeof(contacto.numero), stdin);
-    fputs(contacto.numero, arch);
+    contacto.numero[strcspn(contacto.numero, "\n")] = 0;
 
     printf("Ingrese el mail: ");
     fgets(contacto.mail, sizeof(contacto.mail), stdin);
-    fputs(contacto.mail, arch);
+    contacto.mail[strcspn(contacto.mail, "\n")] = 0;
 
+    fprintf(arch, "%s %s %s\n", contacto.nombre, contacto.numero, contacto.mail);
     fclose(arch);
+
+    printf("Contacto agregado.\n");
 }
-void mostrarContacto(FILE *archivo)
+
+void mostrarContactos()
 {
     Contacto contacto;
     FILE *arch = fopen("contactos.txt", "r");
-    if (!arch)
+    if (arch == NULL)
     {
         printf("No se pudo abrir el archivo.\n");
         return;
     }
 
-    while (fgets(contacto.nombre, sizeof(contacto.nombre), arch) != NULL)
+    while (fscanf(arch, "%49s %49s %49s", contacto.nombre, contacto.numero, contacto.mail) == 3)
     {
-        printf("--Nombre: %s--Teléfono: %s--Mail: %s--\n", contacto.nombre, contacto.numero, contacto.mail);
-        printf("-------------------------------------------------------------------------------------------------");
+        printf("--Nombre: %s--Telefono: %s--Mail: %s--\n", contacto.nombre, contacto.numero, contacto.mail);
     }
     fclose(arch);
 }
 
-void eliminarContacto(FILE *archivo) {}
+void eliminarContacto()
+{
+    // Implementation for contact deletion can be added here.
+    printf("Función de eliminar contacto no implementada aún.\n");
+}
