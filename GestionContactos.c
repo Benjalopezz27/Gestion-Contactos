@@ -40,8 +40,8 @@ int main()
             eliminarContacto();
             break;
         case 4:
-            printf("¿Está seguro que desea salir? (s/n): ");
             break;
+            printf("¿Está seguro que desea salir?\n");
         default:
             printf("Error. Intente nuevamente.\n");
             break;
@@ -52,7 +52,7 @@ int main()
 void agregarContacto()
 {
     Contacto contacto;
-    FILE *arch = fopen("contactos.txt", "a");
+    FILE *arch = fopen("contactos.dat", "ab");
     if (!arch)
     {
         printf("No se pudo abrir el archivo");
@@ -68,7 +68,8 @@ void agregarContacto()
     printf("Ingrese el mail: ");
     fgets(contacto.mail, sizeof(contacto.mail), stdin);
 
-    fprintf(arch, "%s %s %s\n", contacto.nombre, contacto.numero, contacto.mail);
+    fwrite(&contacto, sizeof(contacto), 1, arch);
+
     fclose(arch);
 
     printf("Contacto agregado.\n");
@@ -77,14 +78,14 @@ void agregarContacto()
 void mostrarContactos()
 {
     Contacto contacto;
-    FILE *arch = fopen("contactos.txt", "r");
+    FILE *arch = fopen("contactos.dat", "rb");
     if (!arch)
     {
         printf("No se pudo abrir el archivo.\n");
         return;
     }
-
-    while (fscanf(arch, "%49s %49s %49s", contacto.nombre, contacto.numero, contacto.mail) == 3)
+    printf("---- Gestion de Contactos ----\n");
+    while (fread(&contacto, sizeof(contacto), 1, arch))
     {
         printf("--Nombre: %s--Telefono: %s--Mail: %s--\n", contacto.nombre, contacto.numero, contacto.mail);
     }
