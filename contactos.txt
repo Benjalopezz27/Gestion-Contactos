@@ -1,0 +1,6 @@
+juan
+3814598745
+juanperez@gmail.com
+benjamin
+3814565765
+benjamin@mail0-release-posix-sjlj-rt_v6-rev0\mingw64\bin\gdb.exe' '--interpreter=mi' 2 & 'c:\Users\benja\.vscode\extensions\ms-vscode.cpebugLauncher.exe' --stdin=Microsoft-MIEngine-In-mnpcg.uf5' '--stderr=Microsoft-MIEngine-Error-scxpknzr.wz5' '--pid=Microsoft-MIEngine-Pid-lp2kk3jt.el-release-posix-slj-rt_v6-rev0\mingw64\bin\gdb.exe' '--interpreter=mi'  & 'c:\Users\benja\.vscode\extensions\ms-vscode.cpebugLauncher.exe' '--stdin=Microsoft-MIEngne-In-uhsgcfr.is2' '--stdout=Microsoft-MIEngine-Out-llq2hgfk.zho' '--stderr=Microsoft-MIEngine-Error-xfqgxsvu.q2f' '--pid=Microsoft-MIEngine-Pid-ewbyavy.uy-release-posix-sjlj-rt_v6-rev0\mingw64\bin\gdb.exe' '--interpreter=mi'  & 'c:\Users\benja\.vscode\extensions\ms-vscode.cpebugLauncher.exe'--stdin=Microsoft-MIEngine-In-e53zc3an.otd' '--stdout=Microsoft-MIEngine-Out-g3wf0jdj.r2c' '--stderr=Microsoft-MIEngine-Error-pu1ddx' '--dbgExe=C:\
