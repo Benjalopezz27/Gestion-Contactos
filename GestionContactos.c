@@ -40,8 +40,9 @@ int main()
             eliminarContacto();
             break;
         case 4:
-            break;
             printf("¿Está seguro que desea salir?\n");
+            break;
+
         default:
             printf("Error. Intente nuevamente.\n");
             break;
@@ -61,12 +62,15 @@ void agregarContacto()
 
     printf("Ingrese el nombre: ");
     fgets(contacto.nombre, sizeof(contacto.nombre), stdin);
+    contacto.nombre[strcspn(contacto.nombre, "\n")] = '\0';
 
     printf("Ingrese el teléfono: ");
     fgets(contacto.numero, sizeof(contacto.numero), stdin);
+    contacto.numero[strcspn(contacto.numero, "\n")] = '\0';
 
     printf("Ingrese el mail: ");
     fgets(contacto.mail, sizeof(contacto.mail), stdin);
+    contacto.mail[strcspn(contacto.mail, "\n")] = '\0';
 
     fwrite(&contacto, sizeof(contacto), 1, arch);
 
@@ -84,7 +88,7 @@ void mostrarContactos()
         printf("No se pudo abrir el archivo.\n");
         return;
     }
-    printf("---- Gestion de Contactos ----\n");
+    printf("---- Lista de Contactos ----\n");
     while (fread(&contacto, sizeof(contacto), 1, arch))
     {
         printf("--Nombre: %s--Telefono: %s--Mail: %s--\n", contacto.nombre, contacto.numero, contacto.mail);
@@ -94,4 +98,53 @@ void mostrarContactos()
 
 void eliminarContacto()
 {
+    FILE *arch = fopen("contactos.dat", "rb");
+    if (!arch)
+    {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
+    FILE *archTemp = fopen("temporal.dat", "wb");
+    if (!archTemp)
+    {
+        fclose(arch);
+        printf("No se pudo crear el archivo temporal.\n");
+        return;
+    }
+
+    int encontrado = 0;
+    char nombre[50];
+    Contacto contacto;
+
+    printf("Ingrese el nombre del contacto a eliminar:\n");
+    fgets(nombre, sizeof(nombre), stdin);
+    nombre[strcspn(nombre, "\n")] = '\0';
+
+    while (fread(&contacto, sizeof(Contacto), 1, arch))
+    {
+        if (strcmp(nombre, contacto.nombre) != 0)
+        {
+            fwrite(&contacto, sizeof(Contacto), 1, archTemp);
+        }
+        else
+        {
+            encontrado = 1;
+        }
+    }
+
+    fclose(arch);
+    fclose(archTemp);
+
+    remove("contactos.dat");
+    rename("temporal.dat", "contactos.dat");
+
+    if (encontrado)
+    {
+        printf("Contacto eliminado.\n");
+    }
+    else
+    {
+        printf("Contacto no encontrado.\n");
+    }
 }
