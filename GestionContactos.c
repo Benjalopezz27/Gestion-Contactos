@@ -51,7 +51,7 @@ int main()
             ordenarContactos();
             break;
         case 6:
-            printf("¿Está seguro que desea salir?\n");
+            printf("Saliendo...\n");
             break;
         default:
             printf("Error. Intente nuevamente.\n");
