@@ -58,6 +58,7 @@ int main()
             break;
         }
     } while (opcion != 6);
+    return 0;
 }
 
 void agregarContacto()
@@ -183,7 +184,7 @@ void modificarContacto()
         if (strcmp(nombre, contacto.nombre))
         {
             encontrado = 1;
-            printf("Ingrese el numero correspondiente (1 - nombre, 2 - telefono, 3 - mail): ");
+            printf("Ingrese el campo que desee eliminar (1 - nombre, 2 - telefono, 3 - mail): ");
             scanf("%d", &opcion);
             getchar();
 
@@ -229,27 +230,23 @@ void modificarContacto()
 }
 int compararContactos(const void *a, const void *b)
 {
-    Contacto *contactoA = (Contacto *)a;
-    Contacto *contactoB = (Contacto *)b;
-    return strcmp(contactoA->nombre, contactoB->nombre);
+    Contacto *contacto1 = (Contacto *)a;
+    Contacto *contacto2 = (Contacto *)b;
+    return strcmp(contacto1->nombre, contacto2->nombre);
 }
 void ordenarContactos()
 {
-
     FILE *arch = fopen("contactos.dat", "rb");
     if (!arch)
     {
         printf("No es posible abrir el archivo.\n");
         exit(1);
     }
-
-    // Contar el número de contactos
     fseek(arch, 0, SEEK_END);
     long tamano = ftell(arch);
     int numContactos = tamano / sizeof(Contacto);
     fseek(arch, 0, SEEK_SET);
 
-    // Crear un array para almacenar los contactos
     Contacto *contactos = malloc(numContactos * sizeof(Contacto));
     if (!contactos)
     {
@@ -258,14 +255,11 @@ void ordenarContactos()
         exit(1);
     }
 
-    // Leer todos los contactos del archivo
     fread(contactos, sizeof(Contacto), numContactos, arch);
     fclose(arch);
 
-    // Ordenar los contactos
     qsort(contactos, numContactos, sizeof(Contacto), compararContactos);
 
-    // Volver a escribir los contactos ordenados en el archivo
     arch = fopen("contactos.dat", "wb");
     if (!arch)
     {

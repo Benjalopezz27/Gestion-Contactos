@@ -1,7 +1,11 @@
-#include <stdio.h>
-int main()
- {
-printf("Hola mundo");
+#incluir <stdio.h>
+entero principal()
+  {
+entero numero;
+imprimir("ingrese un numero: ");
+leer("%d",&numero);
+
+imprimir("el numero es: %d",numero);
     
-return 0;
+retornar 0;
 }

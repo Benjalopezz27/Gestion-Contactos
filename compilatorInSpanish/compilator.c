@@ -36,7 +36,11 @@ int main()
         {
             strcat(newLine, "int main()\n ");
         }
-
+        else if (strstr(line, "entero") != NULL)
+        {
+            strcat(newLine, "int ");
+            strcat(newLine, strchr(line, ' '));
+        }
         else if (strstr(line, "imprimir") != NULL)
         {
             strcat(newLine, "printf");
